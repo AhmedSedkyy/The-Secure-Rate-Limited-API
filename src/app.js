@@ -3,6 +3,11 @@ require('dotenv').config();
 const express=require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const limit = require('./middleware/rateLimit');
+const helmet = require('helmet')
+const hpp = require('hpp');;
+const AppError = require('./utils/appError');
+
 
 
 
@@ -12,10 +17,26 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(cors({ origin: process.env.CLIENT_URL}));  
+app.use(helmet());
+app.use('/api',limit)
+app.use(express.json({limit:'10kb'})); 
+app.use(hpp());
 
-app.use(express.json()); 
 
 
+
+/*                 import Router                */
+
+const userRouter = require('./Routes/userRoutes');
+const taskRouter = require('./Routes/taskRoutes');
+const logRouter = require('./Routes/logRoutes');
+
+
+/*              Router                    */
+
+app.use('/api/', userRouter)
+app.use('/api/task', taskRouter)
+app.use('/api/log', logRouter)
 
 
 

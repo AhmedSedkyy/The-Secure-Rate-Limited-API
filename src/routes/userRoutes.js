@@ -6,9 +6,9 @@ const {registerValidation,loginValidation  } = require('../validators/userValida
 
 
 
-router.post('/register', registerValidation, UserController.register);
+router.post('/register',registerValidation,UserController.register);
 
-router.post('/login', loginValidation, UserController.login);
+router.post('/login',loginValidation,UserController.login);
 
 router.get('/profile', auth.authenticate, UserController.profile);
 
