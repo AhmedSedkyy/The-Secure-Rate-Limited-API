@@ -22,5 +22,14 @@ const updateTaskValidation = validatorMiddleware(Joi.object({
     status: Joi.string()
     .valid('PENDING', 'IN_PROGRESS', 'COMPLETED')
     ,}).min(1)); 
-    
-module.exports = {createTaskValidation, updateTaskValidation};
+
+
+const taskIdValidation = validatorMiddleware(Joi.object({
+    id: Joi.number()
+    .integer()
+    .positive()
+    .required()
+}))
+
+
+module.exports = {createTaskValidation, updateTaskValidation, taskIdValidation};

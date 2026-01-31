@@ -12,13 +12,30 @@ const asyncHandler = require('../utils/asyncHandler')
 
 const createTask = asyncHandler(async (req, res) => {
 
-    const context = { data: req.body, ip: req.ip, userId: req.user.id }
+    const context = { ...req.body, ip: req.ip, userId: req.user.id }
 
     const result = await taskService.createTask(context);
 
     res.status(201).json({ success: true, data: result });
 })
 
+
+/**
+ * @desc    Get a task by ID
+ * @route   GET /api/task/:id
+ * @access  Private
+ */
+
+
+const getTask = asyncHandler(async (req, res) => {
+
+    const context = {userId: req.user.id, taskId: req.params.id }
+    
+    const result = await taskService.getTaskById(context);
+
+    res.status(200).json({ success: true, data: result });
+
+});
 
 /**
  * @desc    Get all tasks belonging to user
@@ -44,7 +61,7 @@ const getUserTasks = asyncHandler(async (req, res) => {
 
 const updateTask = asyncHandler(async (req, res) => {
 
-    const context = { data: req.body, ip: req.ip, userId: req.user.id, taskId: req.params.id }
+    const context = { data:req.body, ip: req.ip, userId: req.user.id, taskId: req.params.id }
 
     const result = await taskService.updateTask(context);
 
@@ -70,4 +87,4 @@ const deleteTask = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { createTask, getUserTasks, updateTask, deleteTask }
+module.exports = { createTask,getTask,getUserTasks, updateTask, deleteTask }

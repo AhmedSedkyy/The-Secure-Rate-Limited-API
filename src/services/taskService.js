@@ -8,8 +8,8 @@ const appError = require("../utils/appError");
 
 const getOwnedTask = async (taskId, userId) => {
     const task = await prisma.task.findFirst({
-        where: { id: taskId, userId },
-        include: { user: true }
+        where: {id:taskId,userId },
+        include: {user:{ select: { id: true, name: true, email: true }}}
     });
 
     if (!task) throw new appError("Task not found", 404);
@@ -18,9 +18,18 @@ const getOwnedTask = async (taskId, userId) => {
 
 
 const createTask = async (context) => {
+
+    console.log(context);
+
     const { title, userId } = context;
 
-    const newTask = await prisma.task.create({ data: { title, userId }, include: { user: true } });
+    const newTask = await prisma.task.create({ data: { title, userId }, include: { user: {
+        select :{
+            id:true,
+            name:true,
+            email:true
+        }
+    } } });
 
 
     logsService.createLog({
@@ -32,6 +41,16 @@ const createTask = async (context) => {
 
     return newTask;
 }
+
+const getTaskById = async (context) => {
+
+    const { taskId, userId } = context;
+
+    const task = await getOwnedTask(taskId, userId);
+
+    return task;
+};
+
 
 const getUserTasks = async (userId) => {
 
@@ -81,4 +100,4 @@ const deleteTask = async (context) => {
 
 
 
-module.exports = { createTask, getUserTasks, updateTask, deleteTask }
+module.exports = { createTask, getUserTasks, updateTask, deleteTask , getTaskById };
