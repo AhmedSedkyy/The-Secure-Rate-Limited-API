@@ -28,9 +28,9 @@ app.use(hpp());
 
 /*                 import Router                */
 
-const userRouter = require('./Routes/userRoutes');
-const taskRouter = require('./Routes/taskRoutes');
-const logRouter = require('./Routes/logRoutes');
+const userRouter = require('./routes/userRoutes');
+const taskRouter = require('./routes/taskRoutes');
+const logRouter = require('./routes/logRoutes');
 
 
 /*              Router                    */
