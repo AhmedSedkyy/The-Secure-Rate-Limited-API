@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 const createTaskValidation = validatorMiddleware(Joi.object({
     title: Joi.string()
+    .alphanum()
     .trim()
     .min(3)
     .max(100)
@@ -14,6 +15,7 @@ const createTaskValidation = validatorMiddleware(Joi.object({
 
 const updateTaskValidation = validatorMiddleware(Joi.object({
     title: Joi.string()
+    .alphanum()
     .trim()
     .min(3)
     .max(100),
